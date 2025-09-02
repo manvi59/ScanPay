@@ -1,0 +1,356 @@
+  
+body {
+  /* background-color: #e5e5e5 !important; */
+  font-size: 14px;
+  letter-spacing: .01071em;
+  line-height: 1.43;
+}
+
+.parking-header {
+  position: relative;
+  background: #000; /* black header */
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* Circular cutout for logo */
+.logo-circle {
+  position: absolute;
+  bottom: -40px; /* pulls circle down */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #fff; /* circle background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+ }
+
+.logo-circle img {
+  /* max-width: 70%; */
+  height: auto;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+
+
+
+
+@font-face {
+  font-family: "Default Semibold";
+  src: url("/qr/static/media/Default-SemiBold.09dd5905216c9541ab6a.woff2") format("woff2");
+}
+
+.rootContainer {
+  /* background: #fff; */
+  font-family: "Default Semibold", sans-serif;
+  min-height: 100vh;
+  /* text-align: center; */
+  width: 100%;
+
+  /* background: rgb(244, 244, 244);
+  text-align: left;
+  color: rgb(6, 57, 91);
+  padding: 1rem 0.6rem 0.6rem;
+  font-size: 0.86rem; */
+  /* background: rgb(244, 244, 244); */
+}
+
+@media (min-width: 1000px) {
+  .rootContainer {
+    margin: auto;
+    /* width: 40vw; */
+    width: 55vw;
+  }
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #fff;
+}
+
+.backButton,
+.helpButton {
+  /* background: none; */
+  border: none;
+  cursor: pointer;
+
+  display: inline-flex;
+  -moz-box-align: center;
+  align-items: center;
+  -moz-box-pack: center;
+  /* justify-content: center; */
+  position: relative;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  /* font-size: 0.875rem; */
+  font-size: 17px;
+  /* line-height: 1.75; */
+  letter-spacing: 0.02857em;
+  min-width: 64px;
+  /* padding: 6px 8px; */
+  border-radius: 4px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: #000080;
+  text-transform: none;
+
+}
+
+.parkingInfo img {
+  height: 40px;
+}
+
+.divider {
+  /* border-color: #000080 !important; */
+  border: 1px solid #000080 !important;
+  opacity: 0.9 !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.box {
+  padding: 2rem;
+}
+
+.parkingLocation {
+  margin-bottom: 1rem;
+}
+
+.parkingName {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.phoneInput {
+  margin: 1rem 0 !important;
+}
+
+.phoneInput input  {
+  width: 100% !important;
+  padding: 0.75rem !important;
+  font-size: 1rem !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  border: 2px solid rgb(241, 39, 39) !important;
+}
+
+.react-tel-input {
+  width: 100% !important;
+  padding: 0.40rem !important;
+  /* font-size: 1rem !important; */
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  /* border: 2px solid rgb(241, 39, 39) !important; */
+}
+
+.react-tel-input .form-control {
+  border: none !important;
+  width: 100% !important;
+ }
+ .react-tel-input .flag-dropdown{
+  border: none !important;
+  background-color: none !important;
+  background: none !important;
+  /* border-right: 2px solid rgb(241, 39, 39) !important; */
+ }
+
+ .react-tel-input .country-list{
+  width: 200px !important;
+ }
+
+ 
+
+
+
+
+ /* @media screen and (max-width: 1200px) {
+  .react-tel-input .country-list{
+    width: 300px !important;
+   }
+  
+ }
+ @media screen and (max-width: 496px) {
+  .react-tel-input .country-list{
+    width: 270px !important;
+   }
+  
+ } */
+
+ .react-tel-input .form-control{
+  font-size: 17px !important;
+ }
+ .react-tel-input .selected-flag{
+  padding: 0 !important;
+ }
+.licenceInput{
+  display: flex;
+  justify-content: center;
+}
+.licenceInput input  {
+
+  width: 100%;
+  padding: 0.90rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* border: 2px solid rgb(241, 39, 39); */
+   border: 1px solid rgb(221, 221, 221);
+   margin-left: 1rem;
+   margin-right: 1rem;
+   margin-top: 1rem;
+
+}
+
+.licenceInput input:focus-visible , .cardInput input:focus-visible {
+  outline:2px solid rgb(241, 39, 39) !important  ;
+}
+
+
+.cardInput input{
+  width: 80%;
+  padding: 0.70rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* border: 2px solid rgb(241, 39, 39); */
+   border: 1px solid rgb(221, 221, 221);
+   
+}
+
+.phoneInput input:focus-visible {
+   outline: none;
+}
+.tncBlock {
+  font-size: 0.875rem;
+  margin: 1rem 0;
+}
+
+.tncBlock a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* .proceedButton {
+  padding: 0.75rem 2rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+} */
+
+.securityInfo {
+  margin-top: 2rem;
+  color: #666;
+}
+
+.securityInfo {
+  margin-top: 2rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:1rem;
+}
+
+.safe_box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:5px;
+}
+
+.safe_text{
+  margin: 0px;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  font-family: "Default Semibold";
+  font-weight: 600;
+  color: rgb(117, 117, 117);
+  font-size: 12px;
+  width: fit-content;
+  font-weight: 400 !important;
+}
+
+.dot{
+  color:rgb(117, 117, 117);
+}
+
+.safe_icon{
+  font-family: Default Semibold !important;
+   
+}
+
+.custom-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background-color: #fff;
+}
+
+.validation_heading{
+  text-align: center;
+  font-size: 1rem;
+  line-height: 24px;
+  color: rgb(6, 57, 91);
+  flex-basis: 100%;
+    -moz-box-flex: 0;
+    flex-grow: 0;
+    max-width: 100%;
+
+}
+
+
+.header_heading{
+  letter-spacing: 0.00938em;
+  font-family: "Default Semibold";
+  font-size: 1.125rem;
+   /* line-height: 24px; */
+  /* margin: 0px 4px; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* color: rgb(6, 57, 91); */
+  color: navy;
+  font-weight: 500;
+ }
+
+ .footer{
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
+
+/* .mainContent{
+  overflow-y: auto;
+} */
+
+
+.react-tel-input .country-list .search-emoji{
+  display: none;
+}
+
+.form-control:focus{
+  border-color: rgb(222, 226, 230) !important;
+}

@@ -1,0 +1,6 @@
+.form-select:focus {
+  /* border-color: #86b7fe; */
+  border: 2px solid rgb(241, 39, 39) !important;
+  outline: 0;
+  box-shadow: none !important;
+}

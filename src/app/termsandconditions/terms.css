@@ -1,0 +1,31 @@
+ @font-face {
+    font-family: 'Sharp Sans No1 Semibold';
+    font-display: swap;
+    src: url('//db.onlinewebfonts.com/t/d746f11d11dd01067a58e13b965e23c7.woff2') format('woff2'),
+         url('//db.onlinewebfonts.com/t/d746f11d11dd01067a58e13b965e23c7.woff') format('woff'),
+         url('//db.onlinewebfonts.com/t/d746f11d11dd01067a58e13b965e23c7.ttf') format('truetype');
+  } 
+  
+  .termsContainer {
+    font-family: 'Sharp Sans No1 Semibold', sans-serif;
+    color: #06395B;
+    /* width: 50%; */
+    /* margin: 0 auto; */
+    padding: 2rem 0;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .title {
+    text-align: center;
+  }
+  
+  .termsContainer h3 {
+    font-size: 1rem;
+  }
+  
+  .termsContainer p {
+    font-size: 0.86rem;
+    margin-bottom: 1rem;
+  }
+  

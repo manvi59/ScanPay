@@ -1,0 +1,248 @@
+/* Header background */
+/* .parking-header {
+  position: relative;
+  background: #000;  
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+} */
+
+/* Circular cutout for logo */
+.logo-circle {
+  position: absolute;
+  bottom: -40px; /* pulls circle down */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #fff; /* circle background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+ }
+
+.logo-circle img {
+  /* max-width: 70%; */
+  height: auto;
+}
+
+
+
+/* Main container */
+.parking-container {
+  background: #fff;
+  /* min-height: 100vh; */
+  padding: 20px;
+}
+
+/* Card */
+.parking-card {
+  /* width: 60%; */
+  /* max-width: 500px; */
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px 25px;
+}
+
+/* Logo */
+.parking-logo-img {
+  width: 80px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Input */
+.input-group-text {
+  background-color: #fff;
+  border-right: 0;
+}
+.form-control {
+  border-left: 0;
+}
+
+/* Button */
+.btn:disabled {
+  background-color: #d3d3d3 !important;
+  border: none;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .parking-card {
+    padding: 20px 15px;
+  }
+  .parking-logo-img {
+    width: 60px;
+  }
+}
+
+
+/* --------------------------parking-footer------------------------- */
+
+/* Footer Wrapper */
+.parking-footer {
+  /* margin-top: 40px; */
+  padding: 20px 0px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  background: #fff;
+}
+
+/* Top Row */
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  /* flex-wrap: wrap; */
+}
+
+.footer-top p {
+  margin: 0;
+}
+
+.footer-top a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer-top a:hover {
+  text-decoration: underline;
+}
+
+/* Bottom Row */
+.footer-bottom {
+  text-align: center;
+}
+
+.powered-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8f9fa;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #555;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.powered-box img {
+  height: 20px;
+  width: auto;
+}
+
+
+.form-control{
+  box-shadow: none !important;
+  height: 40px !important;
+}
+
+
+
+/* -------------------payment detail--------------- */
+
+.cart-details-container {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  margin: 1.5rem 0 1.5rem 0;
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+}
+
+.payment-summary {
+  background: #fff;
+  padding: 0.5rem 0;
+}
+
+.summary-section:last-child {
+  border-bottom: none;
+}
+.summary-section {
+  padding: 1rem 1.5rem;
+  /* border-bottom: 1px solid #e9ecee; */
+}
+
+.summary-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecee;
+}
+
+.summary-label {
+  color: #868e96;
+  font-size: 0.875rem;
+}
+
+.summary-value {
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.875rem;
+}
+
+.summary-total {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-bottom: none;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+    padding-top: 0.75rem;
+  /* border-bottom: 1px solid #e9ecee; */
+}
+
+.summary-total .summary-label, .summary-total .summary-value {
+  font-weight: 600;
+  color: #343a40;
+  font-size: 1rem;
+}
+
+
+/* -------------------------pay page API------------------------ */
+
+.pay-input{
+  font-size: 17px;
+}
+
+.pay-input:focus-visible{
+  outline: none !important;
+}
+
+.error_text {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.form-control {
+  border-left: 1px solid var(--bs-border-color) !important;
+}
+
+@media screen and (max-width:600px) {
+
+  .scan-main{
+    width: 100% !important;
+  }
+  
+}
+
+
+.form-control:focus{
+  /* border-lef: 1px solid var(--bs-border-color) !important; */
+  border-color: 1px solid rgb(222, 226, 230) !important;
+}
