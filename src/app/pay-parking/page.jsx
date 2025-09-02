@@ -43,7 +43,7 @@ export default function page() {
         <div className="parking-card p-0 ">
           
           <h1 className="fw-normal text-center">Pay for Parking</h1>
-          <h5 className=" text-center mb-2">RM Parking Solutions LLC</h5>
+          {/* <h5 className=" text-center mb-2">RM Parking Solutions LLC</h5> */}
           <h6 className="fw-normal  text-muted text-center my-3">
             DT - SRQ Magazine
           </h6>
@@ -112,7 +112,7 @@ export default function page() {
               </Link>
 
               {/* Footer */}
-              <p className="text-muted small mt-3 text-center">
+              <p className="text-muted  mt-3 text-center">
                 By continuing you confirm that you have read and agree to the{" "}
                 <Link href="#" className="text-primary text-decoration-none">
                   Terms of Service
@@ -134,8 +134,8 @@ export default function page() {
         </div>
       </div>
 
-      <footer className="parking-footer">
-        <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-2  mx-lg-0">
+       <footer className="parking-footer">
+        <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0" style={{fontSize:"12px"}}>
           <p className="text-start">
             DT - SRQ Magazine Operated by{" "}
             <a
@@ -143,7 +143,7 @@ export default function page() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              RM Parking Solutions LLC
+            SoCal
             </a>
           </p>
           <p className="text-end">210 Avenida Madera, Sarasota FL, 34242</p>
@@ -151,7 +151,7 @@ export default function page() {
 
         <div className="footer-bottom text-center">
           <div className="powered-box py-3">
-            Powered by <img src="/tsp_logo.png" alt="Oobeo" />
+            Powered by <img src="/SOCAL02.png" alt="Oobeo" />
           </div>
         </div>
       </footer>

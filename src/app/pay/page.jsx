@@ -202,7 +202,7 @@ export default function CardInput() {
   >
     {({ values, setFieldValue, isValid, dirty }) => (
       <Form>
-        <div className="container " style={{marginTop:"100px"}}>
+        <div className="mx-4" style={{marginTop:"100px"}}>
           <div className=" row d-flex align-items-center border rounded p-3 ">
             {/* Card Logo */}
             <div className=" d-flex col-xl-5 col-lg-5 col-md-12 col-12 px-0">
@@ -270,7 +270,7 @@ export default function CardInput() {
 
           </div>
           <div className="row my-4">
-            <div className="col-12 px-md-0">
+            <div className="col-12 px-0">
               <Link href="/success" className="w-100">
                 <button
                   id="submit-credit-card"
@@ -298,7 +298,7 @@ export default function CardInput() {
 
   
        <footer className="parking-footer">
-        <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-2  mx-lg-0">
+        <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0" style={{fontSize:"12px"}}>
           <p className="text-start">
             DT - SRQ Magazine Operated by{" "}
             <a
@@ -306,7 +306,7 @@ export default function CardInput() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              RM Parking Solutions LLC
+            SoCal
             </a>
           </p>
           <p className="text-end">210 Avenida Madera, Sarasota FL, 34242</p>
@@ -314,11 +314,10 @@ export default function CardInput() {
 
         <div className="footer-bottom text-center">
           <div className="powered-box py-3">
-            Powered by <img src="/tsp_logo.png" alt="Oobeo" />
+            Powered by <img src="/SOCAL02.png" alt="Oobeo" />
           </div>
         </div>
       </footer>
-    
     </>
   );
 }
