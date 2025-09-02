@@ -103,10 +103,10 @@ export default function page() {
               {/* Button */}
               <Link href="/payment-parking">
               <button
-                className="btn btn-primary w-100 py-3 "
+                className={`btn btn-primary w-100 py-3 ${licence && email && hour ? "baby-blue" : ""}`}
                 disabled={ ! (licence && email && hour )}
                  
-                style={{background:"#89CFF0 !important" , border:"1px solid #89CFF0 !important", color:"rgb(33, 37, 41) !important", fontWeight:"500"}}
+                // style={{background:"#89CFF0 !important" , border:"1px solid #89CFF0 !important", color:"rgb(33, 37, 41) !important", fontWeight:"500"}}
               >
                 Pay for Parking
               </button>
