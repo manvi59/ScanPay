@@ -105,6 +105,8 @@ export default function page() {
               <button
                 className="btn btn-primary w-100 py-3 "
                 disabled={ ! (licence && email && hour )}
+                 
+                style={{background:"#89CFF0 !important" , border:"1px solid #89CFF0 !important", color:"rgb(33, 37, 41) !important", fontWeight:"500"}}
               >
                 Pay for Parking
               </button>
