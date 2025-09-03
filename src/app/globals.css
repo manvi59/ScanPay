@@ -354,3 +354,44 @@ body {
 .form-control:focus{
   border-color: rgb(222, 226, 230) !important;
 }
+
+/* .react-tel-input .flag{
+  background-image: url("/flags.jpg") !important;
+  background-repeat: no-repeat;
+} */
+
+/* .react-tel-input .flag {
+  width: 40px !important;       
+  height: 27px !important;     
+  background-image: url("/country.png") !important;
+  background-repeat: no-repeat !important;
+ } */
+
+
+ /* Bigger dropdown button */
+.react-tel-input .flag-dropdown {
+  width: 60px !important;
+}
+
+/* Adjust selected flag area */
+.react-tel-input .selected-flag {
+  /* height: 35px !important; */
+  padding: 0 8px !important;
+}
+
+/* Make flag container bigger */
+.react-tel-input .flag {
+  transform: scale(1.5);    /* enlarge flag */
+  transform-origin: center; /* keep centered */
+}
+
+.react-tel-input .country-list .search {
+  /* position: -webkit-sticky; */
+  position: relative !important;
+   
+}
+
+.react-tel-input .country-list .search-box{
+  width: 150px !important;
+}
+
