@@ -8,6 +8,7 @@ import Security from "@/components/Security/Security";
 // import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "next/navigation";
+import Design from "../design/page";
 
 
 export default function Home() {
@@ -16,13 +17,18 @@ export default function Home() {
 
    return (
     <div 
-    // className="rootContainer" 
+     
     >
-      <Header header_path="" header_heading="" logo={true}/>
+      {/* <Header header_path="" header_heading="" logo={true}/>
       <User mainSlug={params?.slug}/>
       <Faq/>
-      <Security/>
-       {/* <ToastContainer /> */}
+      <Security/> */}
+
+       <Design mainSlug={params?.slug}/>
+      
+      
+       
+       
       </div>
 
   );

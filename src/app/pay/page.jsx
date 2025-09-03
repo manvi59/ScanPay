@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import "../design/design.css"
-
+import "../design/design.css";
 
 import Modal from "react-bootstrap/Modal";
 import ProgressBar from "react-bootstrap/ProgressBar";
@@ -15,7 +14,6 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { GrCreditCard } from "react-icons/gr";
 
- 
 export default function CardInput() {
   const [show, setShow] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
@@ -48,6 +46,13 @@ export default function CardInput() {
     setMonth(month);
     setYear(year);
   };
+
+  // useEffect(()=>{
+  //     let book_data = localStorage.getItem("booking_data");
+  //     book_data = JSON.parse(book_data);
+  //     setBookingData(book_data);
+
+  //   },[])
 
   const makePaymnet = async (values) => {
     let data = localStorage.getItem("booking_data");
@@ -83,7 +88,8 @@ export default function CardInput() {
           ccExpiryYear: year,
           cvvNumber: values?.cvv,
           amount: data?.fcharge,
-          name: values?.cardName,
+          // name: values?.cardName,
+          name:"none",
           vehicle_type: "1",
           couponcode: "",
         },
@@ -120,7 +126,7 @@ export default function CardInput() {
         localStorage.setItem("booking_success", JSON.stringify(response.data));
         setProcessModal(true);
         setPaymentCount(paymentCount + 1);
-        router.push("/booking-success");
+        router.push("/success");
       }
     } catch (error) {
       console.error("Axios error:", error);
@@ -139,9 +145,9 @@ export default function CardInput() {
   };
 
   const PaymentSchema = Yup.object().shape({
-    cardName: Yup.string()
-      .required("Card name is required")
-      .matches(/^[a-zA-Z ]+$/, "Only letters allowed"),
+    // cardName: Yup.string()
+    //   .required("Card name is required")
+    //   .matches(/^[a-zA-Z ]+$/, "Only letters allowed"),
 
     cardNumber: Yup.string()
       .required("Card number is required")
@@ -177,128 +183,126 @@ export default function CardInput() {
   };
 
   const handlePostal = (value) => {
-    return value.replace(/\D/g, "").slice(0, 13);
+    return value.replace(/\D/g, "").slice(0, 6);
   };
 
   return (
-
     <>
-     {/* <div className="parking-container d-flex align-items-center justify-content-center shadow px-0 pt-0  mt-5">
-       <div className="parking-card pb-0 px-0 w-100 pt-0 "> */}
-  <Formik
-    initialValues={{
-      cardName: "",
-      cardNumber: "",
-      expiry: "",
-      cvv: "",
-      postal: "",
-    }}
-    validationSchema={PaymentSchema}
-    validateOnMount={true}
-    onSubmit={(values) => {
-      // console.log("✅ Payment Data:", values);
-      // makePayment(values);
-    }}
-  >
-    {({ values, setFieldValue, isValid, dirty }) => (
-      <Form>
-        <div className="mx-4" style={{marginTop:"100px"}}>
-          <div className=" row d-flex align-items-center border rounded p-3 ">
-            {/* Card Logo */}
-            <div className=" d-flex col-xl-5 col-lg-5 col-md-12 col-12 px-0">
-              
-              <GrCreditCard size={25} className="me-2" />
+      <Formik
+        initialValues={{
+          // cardName: "",
+          cardNumber: "",
+          expiry: "",
+          cvv: "",
+          postal: "",
+        }}
+        validationSchema={PaymentSchema}
+        validateOnMount={true}
+        onSubmit={(values) => {}}
+      >
+        {({ values, setFieldValue, isValid, dirty }) => (
+          <Form>
+            <div className="mx-4" style={{ marginTop: "100px" }}>
+              <div className=" row d-flex align-items-center border rounded p-3 ">
+                {/* Card Logo */}
+                <div className=" d-flex col-xl-5 col-lg-5 col-md-12 col-12 px-0">
+                  <GrCreditCard size={25} className="me-2" />
 
-            <Field
-              name="cardNumber"
-              className="border-0 pay-input  "
-              value={values.cardNumber}
-              onChange={(e) =>
-                setFieldValue("cardNumber", formatCardNumber(e.target.value))
-              }
-              
-              placeholder="Card Number"
-            />
+                  <Field
+                    name="cardNumber"
+                    className="border-0 pay-input  "
+                    value={values.cardNumber}
+                    onChange={(e) =>
+                      setFieldValue(
+                        "cardNumber",
+                        formatCardNumber(e.target.value)
+                      )
+                    }
+                    placeholder="Card Number"
+                  />
+                </div>
+
+                <Field
+                  name="expiry"
+                  className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
+                  value={values.expiry}
+                  onChange={(e) =>
+                    setFieldValue("expiry", formatExpiry(e.target.value))
+                  }
+                  placeholder="MM / YYYY"
+                />
+
+                <Field
+                  name="cvv"
+                  className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
+                  value={values.cvv}
+                  onChange={(e) =>
+                    setFieldValue("cvv", handleCvvChange(e.target.value))
+                  }
+                  placeholder="CVV"
+                />
+
+                <Field
+                  name="postal"
+                  className="border-0 pay-input col-xl-3 col-lg-3 col-md-4 col-4 mt-lg-0  mt-3 px-0"
+                  type="text"
+                  placeholder="Postal code"
+                  value={values.postal}
+                  onChange={(e) =>
+                    setFieldValue("postal", handlePostal(e.target.value))
+                  }
+                />
+              </div>
+              <div className="mt-2">
+                <ErrorMessage
+                  name="cardNumber"
+                  component="div"
+                  className="error_text"
+                />
+                <ErrorMessage
+                  name="expiry"
+                  component="div"
+                  className="error_text"
+                />
+                <ErrorMessage
+                  name="cvv"
+                  component="div"
+                  className="error_text"
+                />
+                <ErrorMessage
+                  name="postal"
+                  component="div"
+                  className="error_text"
+                />
+              </div>
+              <div className="row my-4">
+                <div className="col-12 px-0">
+                  {/* <Link href={`${isValid && dirty && "/success"}`} className="w-100" onClick={()=>isValid && dirty && makePaymnet(values)}> */}
+                  <button
+                    id="submit-credit-card"
+                    type="submit`"
+                    className="btn btn-lg btn-block btn-primary w-100"
+                    onClick={()=>isValid && dirty && makePaymnet(values)}
+                    // onClick={() => console.log(isValid, "     ", dirty , "\n" , values)}
+                  >
+                    Pay now
+                  </button>
+                  {/* </Link> */}
+                </div>
+              </div>
             </div>
+          </Form>
+        )}
+      </Formik>
 
-
-
-
-            <Field
-              name="expiry"
-              className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
-              value={values.expiry}
-              onChange={(e) =>
-                setFieldValue("expiry", formatExpiry(e.target.value))
-              }
-              placeholder="MM / YYYY"
-               
-            />
-            
-
-            <Field
-              name="cvv"
-              className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
-              value={values.cvv}
-              onChange={(e) =>
-                setFieldValue("cvv", handleCvvChange(e.target.value))
-              }
-               
-              placeholder="CVV"
-            />
-            
-
-            <Field
-              name="postal"
-              className="border-0 pay-input col-xl-3 col-lg-3 col-md-4 col-4 mt-lg-0  mt-3 px-0"
-              type="text"
-              placeholder="Postal code"
-
-              value={values.postal}
-              onChange={(e) =>
-                setFieldValue("postal", handlePostal(e.target.value))
-              }
-               
-            />
-           </div> 
-          <div>
-     {/* <ErrorMessage name="cardNumber" co mponent="div" className="error_text" />
-      <ErrorMessage name="expiry" component="div" className="error_text" />
-       <ErrorMessage name="cvv" component="div" className="error_text" />
-       <ErrorMessage name="postal" component="div" className="error_text" />  */}
-
-
-          </div>
-          <div className="row my-4">
-            <div className="col-12 px-0">
-              <Link href="/success" className="w-100">
-                <button
-                  id="submit-credit-card"
-                  type="button"
-                  className="btn btn-lg btn-block btn-primary w-100"
-                  // style={{
-                  //   backgroundColor: "rgb(95, 188, 94)",
-                  //   border: "2px solid rgb(95, 188, 94)",
-                  // }}
-                >
-                  Pay now
-                </button>
-              </Link>
-            </div>
-          </div>
-
-          
-        </div>
-      </Form>
-    )}
-  </Formik>
-
-  {/* </div>
+      {/* </div>
    </div> */}
 
-  
-       <footer className="parking-footer">
-        <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0" style={{fontSize:"12px"}}>
+      <footer className="parking-footer">
+        <div
+          className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0"
+          style={{ fontSize: "12px" }}
+        >
           <p className="text-start">
             DT - SRQ Magazine Operated by{" "}
             <a
@@ -306,7 +310,7 @@ export default function CardInput() {
               target="_blank"
               rel="noopener noreferrer"
             >
-            SoCal
+              SoCal
             </a>
           </p>
           <p className="text-end">210 Avenida Madera, Sarasota FL, 34242</p>

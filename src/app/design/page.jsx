@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import "./design.css";
 import Image from "next/image";
@@ -22,8 +22,50 @@ const PhoneInput = dynamic(
 
 
 
-export default function page() {
+export default function Design({mainSlug}) {
   const [mobile, setMobile] = useState("");
+
+
+  const [parkingData, setParkingData] = useState([]);
+  // fetch parking data
+  const UserAddress = async () => {
+    try {
+      const response = await axios.get(
+        // `https://admin.theselfparking.com/api/parkingdata/${mainSlug}`,
+        `https://admin.theselfparking.com/api/parkingdata/${mainSlug}`,
+        { headers: { Accept: "application/json" } }
+      );
+      setParkingData(response?.data?.result?.parkingdata);
+    } catch (error) {
+      console.log(error);
+      showToast(error, "error");
+    }
+  };
+
+  useEffect(() => {
+    UserAddress();
+  }, []);
+
+  // Yup schema with phone validation
+  const validationSchema = Yup.object().shape({
+    phone: Yup.string()
+      .required("Phone number is required")
+      .test("is-valid-phone", "Invalid phone number", function (value) {
+        if (!value) return false;
+        const phoneNumber = parsePhoneNumberFromString("+" + value);  
+        return phoneNumber ? phoneNumber.isValid() : false;
+      }),
+  });
+
+  // const handleSubmit = (values) => {
+  //   if (typeof window !== "undefined") {
+  //     localStorage.setItem("phone", values.phone);
+  //   }
+
+  //   if (parkingData?.slug && values.phone) {
+  //     router.push(`/time_slot/${parkingData?.slug}`);
+  //   }
+  // };
 
   return (
     <>
@@ -45,63 +87,94 @@ export default function page() {
               </h6>
               <hr />
               <h1 className="fw-normal text-center">Pay for Parking</h1>
-              <h1 className="fw-normal text-center mb-3">DT - SRQ Magazine</h1>
+              {/* <h1 className="fw-normal text-center mb-3">DT - SRQ Magazine</h1> */}
+              <h5 className="fw-normal text-center mb-3">{parkingData?.pname}</h5>
               <p className="text-muted text-center small">
                 Enter your mobile number below to pay for parking:
               </p>
               <hr />
 
+              <Formik
+            initialValues={{ phone: "" }}
+            validationSchema={validationSchema}
+            // onSubmit={handleSubmit}
+          >
+            {({ setFieldValue,setFieldTouched, values , isValid ,  dirty }) => (
+              <Form>
+
               <div className="my-3 ">
                 <label className="form-label fw-semibold">Mobile*</label>
-                {/* <div className="input-group">
-              <span className="input-group-text">
-                <Image
-                  src="https://flagcdn.com/us.svg"
-                  alt="US Flag"
-                  width="25"
-                  height="18"
-                />
-              </span>
-              <input
-                type="tel"
-                className="form-control"
-                placeholder="Enter mobile number"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-              />
-            </div> */}
+               
 
                 <div className="phone2">
-                  <PhoneInput
+                  {/* <PhoneInput
                     country={"us"}
-                    // value={values.phone}
-                    // onChange={(phone) => setFieldValue("phone", phone)}
+                    value={values.phone}
+                    onChange={(phone) => setFieldValue("phone", phone)}
                     inputProps={{
                       name: "phone",
                       required: true,
                     }}
                     style={{ height: "40px !important" }}
                     placeholder="Your Phone Number"
-                    onChange={(phone) => setMobile(phone)}
                     enableSearch={true}
                   />
-                  {/* <ErrorMessage
+                  <ErrorMessage
                                 name="phone"
                                 component="div"
-                                className="error-message"
+                                className="error_text"
                               /> */}
+
+                              <PhoneInput
+                                    country={"us"}
+                                    value={values.phone}
+                                    onChange={(phone) => {
+                                      setFieldValue("phone", phone);
+                                      setFieldTouched("phone", true); // 👈 mark field as touched
+                                    }}
+                                    inputProps={{
+                                      name: "phone",
+                                      required: true,
+                                    }}
+                                    placeholder="Your Phone Number"
+                                    enableSearch={true}
+                                  />
+                                  <ErrorMessage
+                                    name="phone"
+                                    component="div"
+                                    className="error_text"
+                                  />
+
                 </div>
               </div>
 
-              {/* Button */}
-              <Link href="/pay-parking">
-                <button
+               
+              <Link
+  
+
+  //  href={`/pay-parking?phone=${values.phone}`} as={`/pay-parking`} passHref
+  //  href={{
+  //   pathname: "/pay-parking",
+  //   query: { phone: values.phone }, // 👈 phone goes here
+  // }}
+  // as="/pay-parking" 
+
+  href={isValid && dirty?`/pay-parking/${mainSlug}?phone=${values.phone}`:"#"} 
+   
+     
+>
+ 
+                 <button
                   className="btn btn-primary w-100 py-3 "
-                  disabled={!mobile}
+                  disabled={! (isValid && dirty)}
                 >
                   Continue
                 </button>
               </Link>
+
+               </Form>
+            )}
+          </Formik>
 
               {/* Footer */}
               <p className="text-muted  mt-3 text-center">
@@ -122,7 +195,7 @@ export default function page() {
             </div>
           </div>
 
-          {/* Input Section */}
+          
         </div>
       </div>
 

@@ -12,11 +12,11 @@ const MainHeader = () => {
 
     const pathname = usePathname();
 
-    console.log(pathname)
+    // console.log(pathname)
     
   return (
      <>
-     {pathname=="/design" || pathname=="/pay-parking" ?
+     {pathname=="/405-airport-parking" || pathname=="/pay-parking" ?
      
          <div className="parking-header">
              <div className="logo-circle">

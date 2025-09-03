@@ -1,47 +1,32 @@
-// "use client";
-// import Image from "next/image";
-// import Link from "next/link";
-
-// export default function BookingSuccess() {
-//   return (
-//     <div className="container d-flex flex-column align-items-center justify-content-center mt-5 text-center">
-      
-//       <h2 className="fw-bold mb-3">Booking Successful</h2>
-//       <p className="text-muted mb-4">
-//         Thank you for your booking. Your parking has been confirmed.
-//       </p>
-
-      
-//       <div className="border rounded p-4 shadow-sm mb-4" style={{ maxWidth: "400px", width: "100%" }}>
-//         <h5 className="mb-3">Booking Details</h5>
-//         <p className="mb-1"><strong>Booking ID:</strong> #123456</p>
-//         <p className="mb-1"><strong>Location:</strong> DT - SRQ Magazine</p>
-//         <p className="mb-1"><strong>Duration:</strong> 2 Hours</p>
-//         <p className="mb-0"><strong>Amount Paid:</strong> $10.00</p>
-//       </div>
-
-      
-//       <Link href="/" className="btn btn-primary px-4 rounded-pill">
-//         Go to Home
-//       </Link>
-
-      
-//       <footer className="text-muted small mt-5">
-//         DT - SRQ Magazine Operated by RM Parking Solutions LLC <br />
-//         210 Avenida Madera, Sarasota FL, 34242
-//       </footer>
-//     </div>
-//   );
-// }
-
-
+ 
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-// import { CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
 
 export default function BookingSuccess() {
+
+
+    const [booking, setBooking] = useState(null);
+    const [payData , setPayData]=useState("");
+    const router = useRouter();
+    
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const data = localStorage.getItem("booking_success");
+        const main_data = localStorage.getItem("booking_data");
+        if (data && main_data) {
+          setBooking(JSON.parse(data));
+          setPayData(JSON.parse(main_data))
+        } 
+        else {
+          // If no data, redirect back home
+          router.push("/");
+        }
+      }
+    }, [router]);
   return (
     <div className="container d-flex flex-column align-items-center justify-content-center  text-center">
       {/* Success Icon */}
@@ -64,10 +49,10 @@ export default function BookingSuccess() {
         <h5 className="fw-semibold mb-3">Booking Details</h5>
         <div className="text-center">
              
-          <p className="mb-2"><strong>Booking ID:</strong> #123456</p>
-          <p className="mb-2"><strong>Location:</strong> DT - SRQ Magazine</p>
+          <p className="mb-2"><strong>Booking ID:</strong> {booking?.booking_id}</p>
+          <p className="mb-2"><strong>Location:</strong> {payData?.paddress}</p>
           <p className="mb-2"><strong>Duration:</strong> 2 Hours</p>
-          <p className="mb-0"><strong>Amount Paid:</strong> $10.00</p>
+          <p className="mb-0"><strong>Amount Paid:</strong> ${payData?.fcharge}</p>
     
         </div>
       </div>

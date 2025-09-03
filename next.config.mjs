@@ -28,7 +28,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/design",
+        destination: "/405-airport-parking",
         permanent: false, // set to true if you want 301 permanent redirect
       },
     ];
