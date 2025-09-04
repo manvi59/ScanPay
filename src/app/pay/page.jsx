@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { GrCreditCard } from "react-icons/gr";
 import Loader from "@/components/Loader";
+import { MdErrorOutline } from "react-icons/md";
 
 export default function CardInput() {
   const [show, setShow] = useState(false);
@@ -31,6 +32,7 @@ export default function CardInput() {
   const [processModal, setProcessModal] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
   const [loading , setLoading]=useState(false);
+  
 
 
   const handleChange = (e) => {
@@ -285,7 +287,7 @@ export default function CardInput() {
                 />
               </div>
               <div className="mt-2">
-                <ErrorMessage
+                {/* <ErrorMessage
                   name="cardNumber"
                   component="div"
                   className="error_text"
@@ -304,7 +306,45 @@ export default function CardInput() {
                   name="postal"
                   component="div"
                   className="error_text"
-                />
+                 
+                /> */}
+
+                 <ErrorMessage
+                    name="cardNumber"
+                    render={(msg) => (
+                      <div className="error-message d-flex align-items-center text-danger">
+                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
+                        <span>{msg}</span>
+                      </div>
+                    )}
+                  />
+                 <ErrorMessage
+                    name="expiry"
+                    render={(msg) => (
+                      <div className="error-message d-flex align-items-center text-danger">
+                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
+                        <span>{msg}</span>
+                      </div>
+                    )}
+                  />
+                 <ErrorMessage
+                    name="cvv"
+                    render={(msg) => (
+                      <div className="error-message d-flex align-items-center text-danger">
+                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
+                        <span>{msg}</span>
+                      </div>
+                    )}
+                  />
+                 <ErrorMessage
+                    name="postal"
+                    render={(msg) => (
+                      <div className="error-message d-flex align-items-center text-danger">
+                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
+                        <span>{msg}</span>
+                      </div>
+                    )}
+                  />
               </div>
               <div className="row my-4">
                 <div className="col-12 px-0">

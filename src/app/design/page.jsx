@@ -19,6 +19,7 @@ const PhoneInput = dynamic(
 );
 
 import Loader from "@/components/Loader";
+import { MdErrorOutline } from "react-icons/md";
 
 
 
@@ -148,10 +149,20 @@ export default function Design({mainSlug}) {
                                     placeholder="Your Phone Number"
                                     enableSearch={true}
                                   />
-                                  <ErrorMessage
+                                  {/* <ErrorMessage
                                     name="phone"
                                     component="div"
                                     className="error_text"
+                                  /> */}
+
+                                    <ErrorMessage
+                                    name="phone"
+                                    render={(msg) => (
+                                      <div className="error-message d-flex align-items-center">
+                                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
+                                        <span>{msg}</span>
+                                      </div>
+                                    )}
                                   />
 
                 </div>

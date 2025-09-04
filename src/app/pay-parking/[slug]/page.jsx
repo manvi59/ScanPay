@@ -4,34 +4,21 @@ import Head from "next/head";
 import "../../design/design.css";
 import Image from "next/image";
 import Link from "next/link";
-
-import dynamic from "next/dynamic";
 import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 import showToast from "@/utils/showToast";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 import FormPay from "react-bootstrap/Form";
 import { useParams, useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Loader from "@/components/Loader";
-// const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
-const PhoneInput = dynamic(
-  () => import("react-phone-input-2").then((mod) => mod.default),
-  { ssr: false }
-);
+import { MdErrorOutline } from "react-icons/md";
+  
  
 export default function page() {
   const [loading, setLoading]=useState(true);
-  const [mobile, setMobile] = useState("");
-
-  const [licence, setLicence] = useState("");
-  const [email, setEmail] = useState("");
-  const [hour, setHour] = useState("");
-
-  const router = useRouter();
-
+   
   const params = useParams();
 
   const searchParams = useSearchParams();
@@ -41,6 +28,7 @@ export default function page() {
 
   const [boxSelect, setBoxSelect] = useState(0);
   const [mainData, setMainData] = useState([]);
+  
 
   const validationSchema = Yup.object({
     licenceValue: Yup.string()
@@ -193,11 +181,20 @@ const parkingData=(values)=>{
                         }}
                       />
 
-                      <ErrorMessage
+                      {/* <ErrorMessage
                         name="licenceValue"
                         component="div"
                         className="error_text "
-                      />
+                      /> */}
+                      <ErrorMessage
+                            name="licenceValue"
+                            render={(msg) => (
+                              <div className="error-message d-flex align-items-center text-danger">
+                                <MdErrorOutline size={18} className="me-1 error-message mt-0" />
+                                <span>{msg}</span>
+                              </div>
+                            )}
+                          />
                     </div>
                     <div className="mb-3 ">
                       <label className="form-label ">Enter Your Email*</label>
@@ -211,11 +208,20 @@ const parkingData=(values)=>{
                           setFieldTouched("emailValue", true);
                         }}
                       />
-                      <ErrorMessage
+                      {/* <ErrorMessage
                         name="emailValue"
                         component="div"
                         className="error_text "
-                      />
+                      /> */}
+                      <ErrorMessage
+                            name="emailValue"
+                            render={(msg) => (
+                              <div className="error-message d-flex align-items-center text-danger">
+                                <MdErrorOutline size={18} className="me-1 error-message mt-0" />
+                                <span>{msg}</span>
+                              </div>
+                            )}
+                          />
                     </div>
                     <div className="mb-3 ">
                       <label className="form-label ">Select Duration*</label>
