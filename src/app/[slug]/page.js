@@ -9,6 +9,7 @@ import Security from "@/components/Security/Security";
 // import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "next/navigation";
 import Design from "../design/page";
+import MainHeader from "@/components/MainHeader/page";
 
 
 export default function Home() {
@@ -25,9 +26,6 @@ export default function Home() {
       <Security/> */}
 
        <Design mainSlug={params?.slug}/>
-      
-      
-       
        
       </div>
 

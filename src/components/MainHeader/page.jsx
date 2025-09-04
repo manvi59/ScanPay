@@ -2,21 +2,29 @@
 import React from 'react'
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+ 
 
  
 
 const MainHeader = () => {
 
     const pathname = usePathname();
+    const params=useParams();
+    const searchParams = useSearchParams();
+      const phone = searchParams.get("phone");
+      const router =useRouter();      
 
-    // console.log(pathname)
+    
+    console.log(`/pay-parking/${params?.slug}?phone=${phone}`)
     
   return (
      <>
-     {pathname=="/405-airport-parking" || pathname=="/pay-parking" ?
+     {pathname==`/${params?.slug}` || (pathname === `/pay-parking/${params?.slug}` && phone) ?
      
          <div className="parking-header">
              <div className="logo-circle">
@@ -30,8 +38,8 @@ const MainHeader = () => {
            className="navbar ps-3  navbar-dark payment_background_light justify-content-start align-items-center"
            style={{ background: 'rgb(0, 0, 0)' }}
          >
-            <Link href="/pay-parking">
-           <div className="d-flex header_buttons">
+            {/* <Link href={`/pay-parking/${params?.slug}?phone=${phone}`}> */}
+           <div className="d-flex header_buttons"  onClick={() => router.back()}>
              <button
                id="back1"
                type="button"
@@ -42,7 +50,7 @@ const MainHeader = () => {
                 <RiArrowLeftSLine  size={30}/>
              </button>
            </div>
-            </Link>
+            {/* </Link> */}
            <a className="navbar-brand pt-0" href='/pay-parking' style={{ paddingLeft: '1rem' }}>
              Pay Now
            </a>
