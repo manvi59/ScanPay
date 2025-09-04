@@ -42,8 +42,8 @@
 //     <h3 className="mb-3"> {booking.msg}</h3>
 //     <p className="mb-1">Booking ID</p>
 //     <h5 className="fw-bold">{booking.booking_id}</h5>
-//     <button 
-//       onClick={() => router.push("/")} 
+//     <button
+//       onClick={() => router.push("/")}
 //       className="btn btn-light mt-4 fw-semibold"
 //     >
 //       Go to Home
@@ -51,13 +51,8 @@
 //   </div>
 // </div>
 
-
-
-
 //   );
 // }
-
-
 
 "use client";
 import Header from "@/components/Header";
@@ -68,96 +63,83 @@ import { CiCircleCheck } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-
 const Page = () => {
   const [booking, setBooking] = useState(null);
-  const [payData , setPayData]=useState("");
+  const [payData, setPayData] = useState("");
   const router = useRouter();
-  
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const data = localStorage.getItem("booking_success");
       const main_data = localStorage.getItem("booking_data");
       if (data && main_data) {
         setBooking(JSON.parse(data));
-        setPayData(JSON.parse(main_data))
-      } 
-      else {
+        setPayData(JSON.parse(main_data));
+      } else {
         // If no data, redirect back home
         router.push("/");
       }
     }
   }, [router]);
-  
- 
 
   if (!booking) return null;
   return (
-     <>
-     
-      <Header
-        header_path={`/`}
-        header_heading="Complete Payment"
-        logo={true}
-      />
+    <>
+      <Header header_path={`/`} header_heading="Complete Payment" logo={true} />
 
       {/* Confirmation Section */}
       <Card className="p-4  rounded-4 border-0">
         <div className="text-center ">
-          <CiCircleCheck  size={40} color="green"/>
+          <CiCircleCheck size={40} color="green" />
           <div className="d-flex  justify-content-center gap-2 text-center align-items-center">
-
-           <h3 className="fw-bold mt-3">Parking Confirmed!</h3>
+            <h3 className="fw-bold mt-3">Parking Confirmed!</h3>
           </div>
-          <p className="text-muted">
-            You're all set. No attendant required!
-          </p>
+          <p className="text-muted">You're all set. No attendant required!</p>
         </div>
 
         {/* Check-in / Checkout */}
         <Row className="text-center my-4">
           <Col>
             <h6 className="fw-bold">Check-in</h6>
-           <p className="mb-0">
-  {payData?.startdate && payData?.starttime
-    ? new Date(`${payData.startdate} ${payData.starttime}`).toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-        day: "numeric",
-        month: "short",
-        // year: "numeric",
-      })
-    : ""}
-</p>
+            <p className="mb-0">
+              {payData?.startdate && payData?.starttime
+                ? new Date(
+                    `${payData.startdate} ${payData.starttime}`
+                  ).toLocaleString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true,
+                    day: "numeric",
+                    month: "short",
+                    // year: "numeric",
+                  })
+                : ""}
+            </p>
           </Col>
           <Col className="d-flex align-items-center justify-content-center">
             <span className="fs-4">→</span>
           </Col>
           <Col>
             <h6 className="fw-bold">Checkout</h6>
-             {/* <p className="mb-0">{payData?.endtime}</p> */}
-             <p className="mb-0">
-  {payData?.endtime
-    ? new Date(payData.endtime).toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true,
-        day: "numeric",
-        month: "short",
-        // year: "numeric",
-      })
-    : ""}
-</p>
-
+            {/* <p className="mb-0">{payData?.endtime}</p> */}
+            <p className="mb-0">
+              {payData?.endtime
+                ? new Date(payData.endtime).toLocaleString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true,
+                    day: "numeric",
+                    month: "short",
+                    // year: "numeric",
+                  })
+                : ""}
+            </p>
           </Col>
         </Row>
 
         {/* Location */}
         <div className="text-center border-top pt-3">
-          <p className="mb-1 fw-semibold">
-            {payData?.paddress}
-           </p>
+          <p className="mb-1 fw-semibold">{payData?.pname}</p>
           <small className="text-muted">{booking.booking_id}</small>
         </div>
 
@@ -203,10 +185,8 @@ const Page = () => {
           </Button>
         </div> */}
       </Card>
-     </>
-  
+    </>
   );
 };
 
 export default Page;
-

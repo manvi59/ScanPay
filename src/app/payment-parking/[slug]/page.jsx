@@ -74,6 +74,7 @@ const params=useParams()
       
        const ok= JSON.parse(response?.data?.result?.booking_data)
       booking_data["paddress"]=ok?.paddress
+      booking_data["pname"]=ok?.pname
        localStorage.setItem("booking_data", JSON.stringify(booking_data));
      } catch (error) {
       console.log(error);
@@ -85,7 +86,9 @@ const params=useParams()
  
   return (
     <>
-    {loading && <Loader/>}
+    {loading ? <Loader/> :
+    
+    <> 
       <Head>
         <title>Pay for Parking</title>
         <link
@@ -110,12 +113,12 @@ const params=useParams()
 
             <div className="summary-row">
               <div className="summary-label">Convenience fee</div>
-              <div className="summary-value">${parkingData?.mainData?.taxsum}</div>
+              <div className="summary-value">${parkingData?.mainData?.taxdata[0]?.tax_value}</div>
             </div>
 
             <div className="summary-row">
               <div className="summary-label">Sales Tax</div>
-              <div className="summary-value">$0.61</div>
+              <div className="summary-value">${parkingData?.mainData?.taxdata[1]?.tax_value}</div>
             </div>
 
             <div className="summary-row summary-total">
@@ -157,16 +160,16 @@ const params=useParams()
       <footer className="parking-footer">
         <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0" style={{fontSize:"12px"}}>
           <p className="text-start">
-            DT - SRQ Magazine Operated by{" "}
+            {parkingData?.pname} Operated by{" "}
             <a
-              href="https://example.com"
+              href="https://socalpark.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
             SoCal
             </a>
           </p>
-          <p className="text-end">210 Avenida Madera, Sarasota FL, 34242</p>
+          <p className="text-end">{parkingData?.paddress}</p>
         </div>
 
         <div className="footer-bottom text-center">
@@ -175,6 +178,9 @@ const params=useParams()
           </div>
         </div>
       </footer>
+    
+    </>
+    }
     </>
   );
 }

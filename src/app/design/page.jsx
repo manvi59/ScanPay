@@ -78,7 +78,8 @@ export default function Design({mainSlug}) {
 
   return (
     <>
-    {loading && <Loader/> }
+    {loading ? <Loader/> :
+    <>
       <Head>
         <title>Pay for Parking</title>
         <link
@@ -222,24 +223,27 @@ export default function Design({mainSlug}) {
       <footer className="parking-footer">
         <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0" style={{fontSize:"12px"}}>
           <p className="text-start">
-            DT - SRQ Magazine Operated by{" "}
+            {parkingData?.pname} Operated by{" "}
             <a
-              href="https://example.com"
+              href="https://socalpark.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
             SoCal
             </a>
           </p>
-          <p className="text-end">210 Avenida Madera, Sarasota FL, 34242</p>
+          <p className="text-end">{parkingData?.paddress}</p>
         </div>
 
         <div className="footer-bottom text-center">
           <div className="powered-box py-3">
-            Powered by <img src="/SOCAL02.png" alt="Oobeo" />
+            Powered by <img src="/SoCal.png" alt="Oobeo" />
           </div>
         </div>
       </footer>
+    </>
+    
+    }
     </>
   );
 }

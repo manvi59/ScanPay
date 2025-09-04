@@ -11,7 +11,7 @@ import showToast from "@/utils/showToast";
 import { useParams, useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrCreditCard } from "react-icons/gr";
 import Loader from "@/components/Loader";
 import { MdErrorOutline } from "react-icons/md";
@@ -32,6 +32,7 @@ export default function CardInput() {
   const [processModal, setProcessModal] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
   const [loading , setLoading]=useState(false);
+  const[parkData , setParkData]=useState();
   
 
 
@@ -52,12 +53,13 @@ export default function CardInput() {
     setYear(year);
   };
 
-  // useEffect(()=>{
-  //     let book_data = localStorage.getItem("booking_data");
-  //     book_data = JSON.parse(book_data);
-  //     setBookingData(book_data);
+  useEffect(()=>{
+      let data = localStorage.getItem("booking_data");
+      data = JSON.parse(data);
+      // setBookingData(book_data);
+      setParkData(data)
 
-  //   },[])
+    },[])
 
   const makePaymnet = async (values) => {
      
@@ -218,9 +220,12 @@ export default function CardInput() {
     return value.replace(/\D/g, "").slice(0, 6);
   };
 
+
+  
   return (
     <>
-    {loading && <Loader/>}
+    {loading ?  <Loader/> :
+    <>
       <Formik
         initialValues={{
           // cardName: "",
@@ -356,7 +361,7 @@ export default function CardInput() {
                     onClick={()=>isValid && dirty && makePaymnet(values)}
                     // onClick={() => console.log(isValid, "     ", dirty , "\n" , values)}
                   >
-                    Pay now
+                    Pay ${parkData?.fcharge}
                   </button>
                   {/* </Link> */}
                 </div>
@@ -366,8 +371,7 @@ export default function CardInput() {
         )}
       </Formik>
 
-      {/* </div>
-   </div> */}
+     
 
       <footer className="parking-footer">
         <div
@@ -375,24 +379,27 @@ export default function CardInput() {
           style={{ fontSize: "12px" }}
         >
           <p className="text-start">
-            DT - SRQ Magazine Operated by{" "}
+            {parkData?.pname} Operated by{" "}
             <a
-              href="https://example.com"
+              href="https://socalpark.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
               SoCal
             </a>
           </p>
-          <p className="text-end">210 Avenida Madera, Sarasota FL, 34242</p>
+          <p className="text-end">{parkData?.paddress}</p>
         </div>
 
         <div className="footer-bottom text-center">
           <div className="powered-box py-3">
-            Powered by <img src="/SOCAL02.png" alt="Oobeo" />
+            Powered by <img src="/SoCal.png" alt="Oobeo" />
           </div>
         </div>
       </footer>
+    </>
+    
+    }
     </>
   );
 }
