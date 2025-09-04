@@ -88,16 +88,40 @@ export default function page() {
     // }
   }, []);
 
-  function formatHourOnly(duration) {
-    if (!duration) return "";
+  // function formatHourOnly(duration) {
+  //   if (!duration) return "";
 
-    const match = duration.match(/(\d+)\s*hour/);
-    if (match && match[1] !== "0") {
-      return `${match[1]} hour`;
-    }
+  //   const match = duration.match(/(\d+)\s*hour/);
+  //   if (match && match[1] !== "0") {
+  //     return `${match[1]} hour`;
+  //   }
 
-    return "0 hour"; // return empty if 0 hours
+  //   return "0 hour"; // return empty if 0 hours
+  // }
+
+
+   function formatHourOnly(durationStr) {
+  const regex = /(\d+)\s*hours?,\s*(\d+)\s*minutes?/i;
+  const match = durationStr.match(regex);
+
+  if (!match) return durationStr; // fallback if no match
+
+  const hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+
+  if (hours === 0) {
+    return `${minutes} min`;
   }
+
+  if (minutes === 0) {
+    return `${hours} hour`;
+  }
+
+  // Custom format: "2.15 hour" means 2 hours and 15 minutes
+  const paddedMinutes = minutes.toString().padStart(2, '0');
+  return `${hours} hour ${paddedMinutes} min`;
+}
+
 
 const parkingData=(values)=>{
    const parking_data={
