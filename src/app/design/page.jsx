@@ -18,12 +18,15 @@ const PhoneInput = dynamic(
   { ssr: false }
 );
 
+import Loader from "@/components/Loader";
+
 
 
 
 
 export default function Design({mainSlug}) {
   const [mobile, setMobile] = useState("");
+  const [loading, setLoading] = useState(true);
 
 
   const [parkingData, setParkingData] = useState([]);
@@ -40,7 +43,12 @@ export default function Design({mainSlug}) {
       console.log(error);
       showToast(error, "error");
     }
+    finally {
+        setLoading(false); // hide loader after API finishes
+      }
   };
+
+  //  if (loading) return <Loader />;  
 
   useEffect(() => {
     UserAddress();
@@ -69,6 +77,7 @@ export default function Design({mainSlug}) {
 
   return (
     <>
+    {loading && <Loader/> }
       <Head>
         <title>Pay for Parking</title>
         <link

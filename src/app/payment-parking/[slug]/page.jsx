@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import FormPay from "react-bootstrap/Form";
 import { useParams, useRouter } from "next/navigation";
+import Loader from "@/components/Loader";
   
 
 export default function page() {
@@ -22,6 +23,7 @@ const params=useParams()
   
 
   const [parkingData, setParkingData]=useState();
+  const [loading , setLoading]=useState(false);
 
   useEffect(() => {
       if (typeof window !== "undefined") {
@@ -42,6 +44,7 @@ const params=useParams()
 
   const checkout = async () => {
     //  e.preventDefault()
+    setLoading(true)
 
     const booking_data = {
       slug: params?.slug,
@@ -75,11 +78,14 @@ const params=useParams()
      } catch (error) {
       console.log(error);
       showToast(error, "error");
+    }finally{
+      setLoading(false)
     }
   };
  
   return (
     <>
+    {loading && <Loader/>}
       <Head>
         <title>Pay for Parking</title>
         <link

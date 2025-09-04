@@ -13,6 +13,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import { GrCreditCard } from "react-icons/gr";
+import Loader from "@/components/Loader";
 
 export default function CardInput() {
   const [show, setShow] = useState(false);
@@ -29,6 +30,8 @@ export default function CardInput() {
   const [bookingData, setBookingData] = useState([]);
   const [processModal, setProcessModal] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
+  const [loading , setLoading]=useState(false);
+
 
   const handleChange = (e) => {
     const formatted = formatCardNumber(e.target.value);
@@ -55,6 +58,7 @@ export default function CardInput() {
   //   },[])
 
   const makePaymnet = async (values) => {
+     
     let data = localStorage.getItem("booking_data");
 
     if (!data) {
@@ -67,6 +71,7 @@ export default function CardInput() {
     // 🔑 Split expiry into MM and YYYY
     const [month, year] = values?.expiry.split(" / ");
 
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://admin.theselfparking.com/api/makepaymnet",
@@ -141,6 +146,8 @@ export default function CardInput() {
       } else {
         showToast("Something went wrong. Please try again.", "error");
       }
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -211,6 +218,7 @@ export default function CardInput() {
 
   return (
     <>
+    {loading && <Loader/>}
       <Formik
         initialValues={{
           // cardName: "",

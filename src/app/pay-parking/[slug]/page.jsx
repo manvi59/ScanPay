@@ -15,13 +15,15 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import FormPay from "react-bootstrap/Form";
 import { useParams, useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import Loader from "@/components/Loader";
 // const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
 const PhoneInput = dynamic(
   () => import("react-phone-input-2").then((mod) => mod.default),
   { ssr: false }
 );
-
+ 
 export default function page() {
+  const [loading, setLoading]=useState(true);
   const [mobile, setMobile] = useState("");
 
   const [licence, setLicence] = useState("");
@@ -76,6 +78,8 @@ export default function page() {
     } catch (error) {
       console.log(error);
       showToast(error, "error");
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -137,6 +141,7 @@ const parkingData=(values)=>{
 
   return (
     <>
+    {loading &&  <Loader/>}
       <Head>
         <title>Pay for Parking</title>
         <link
