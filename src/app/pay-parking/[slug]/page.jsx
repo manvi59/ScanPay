@@ -104,7 +104,7 @@ export default function page() {
   const minutes = parseInt(match[2], 10);
 
   if (hours === 0) {
-    return `${minutes} min`;
+    return `${minutes} minutes`;
   }
 
   if (minutes === 0) {
@@ -113,7 +113,7 @@ export default function page() {
 
   // Custom format: "2.15 hour" means 2 hours and 15 minutes
   const paddedMinutes = minutes.toString().padStart(2, '0');
-  return `${hours} hour ${paddedMinutes} min`;
+  return `${hours} hour ${paddedMinutes} minutes`;
 }
 
 
