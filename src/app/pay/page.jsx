@@ -153,9 +153,32 @@ export default function CardInput() {
       .required("Card number is required")
       .matches(/^\d{4} \d{4} \d{4} \d{4}$/, "Must be 16 digits"),
 
-    expiry: Yup.string()
-      .required("Expiry date is required")
-      .matches(/^(0[1-9]|1[0-2]) \/ \d{4}$/, "Format MM / YYYY"),
+    // expiry: Yup.string()
+    //   .required("Expiry date is required")
+    //   .matches(/^(0[1-9]|1[0-2]) \/ \d{4}$/, "Format MM / YYYY"),
+
+     expiry: Yup.string()
+    .required("Expiry date is required")
+    // allow "MM/YYYY" or "MM / YYYY"
+    .matches(/^(0[1-9]|1[0-2])\s*\/\s*\d{4}$/, "Format must be MM/YYYY")
+    .test("not-expired", "Card has expired", function (value) {
+      if (!value) return false;
+
+      // normalize: "12 / 2025" -> "12/2025"
+      const [mm, yyyy] = value.replace(/\s+/g, "").split("/");
+      const month = Number(mm);
+      const year = Number(yyyy);
+
+      if (!month || !year || isNaN(month) || isNaN(year)) {
+        return this.createError({ message: "Invalid date" });
+      }
+
+      // card valid until end of expiry month
+      const expiryDate = new Date(year, month); // first day of next month
+      const now = new Date();
+
+      return now < expiryDate || this.createError({ message: "Card has expired" });
+    }),
 
     cvv: Yup.string()
       .required("CVV is required")
