@@ -1,64 +1,130 @@
-"use client"
-import React from 'react'
+// "use client"
+// import React from 'react'
 
-import { useEffect, useState } from "react";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { RiArrowLeftSLine } from "react-icons/ri";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
+// import { useEffect, useState } from "react";
+// import { useParams, usePathname, useSearchParams } from "next/navigation";
+// import { RiArrowLeftSLine } from "react-icons/ri";
+// import Link from 'next/link';
+// import { useRouter } from 'next/navigation';
  
+// const MainHeader = () => {
 
- 
-
-const MainHeader = () => {
-
-    const pathname = usePathname();
-    const params=useParams();
-    const searchParams = useSearchParams();
-      const phone = searchParams.get("phone");
-      const router =useRouter();      
+//     const pathname = usePathname();
+//     const params=useParams();
+//     const searchParams = useSearchParams();
+//       const phone = searchParams.get("phone");
+//       const router =useRouter();      
 
     
-    console.log(`/pay-parking/${params?.slug}?phone=${phone}`)
+//     console.log(`/pay-parking/${params?.slug}?phone=${phone}`)
     
-  return (
-     <>
-     {pathname==`/${params?.slug}` || (pathname === `/pay-parking/${params?.slug}` && phone) ?
+//   return (
+//      <>
+//      {pathname==`/${params?.slug}` || (pathname === `/pay-parking/${params?.slug}` && phone) ?
      
-         <div className="parking-header">
-             <div className="logo-circle">
-               <img src="/tsp_logo.png" alt="logo"  height={100} width={100}  className="p-3"/>
-             </div>
-           </div> 
+//          <div className="parking-header">
+//              <div className="logo-circle">
+//                <img src="/tsp_logo.png" alt="logo"  height={100} width={100}  className="p-3"/>
+//              </div>
+//            </div> 
 
-           :
+//            :
      
-                 <nav
-           className="navbar ps-3  navbar-dark payment_background_light justify-content-start align-items-center"
-           style={{ background: 'rgb(0, 0, 0)' }}
-         >
-            {/* <Link href={`/pay-parking/${params?.slug}?phone=${phone}`}> */}
-           <div className="d-flex header_buttons"  onClick={() => router.back()}>
-             <button
-               id="back1"
-               type="button"
-               className="btn btn-primary p-1"
+//                  <nav
+//            className="navbar ps-3  navbar-dark payment_background_light justify-content-start align-items-center"
+//            style={{ background: 'rgb(0, 0, 0)' }}
+//          >
+//             <div className="d-flex header_buttons"  onClick={() => router.back()}>
+//              <button
+//                id="back1"
+//                type="button"
+//                className="btn btn-primary p-1"
 
                
-             >
-                <RiArrowLeftSLine  size={30}/>
-             </button>
-           </div>
-            {/* </Link> */}
-           <a className="navbar-brand pt-0" href='/pay-parking' style={{ paddingLeft: '1rem' }}>
-             Pay Now
-           </a>
-         </nav>
-    }
+//              >
+//                 <RiArrowLeftSLine  size={30}/>
+//              </button>
+//            </div>
+//             <a className="navbar-brand pt-0" href='/pay-parking' style={{ paddingLeft: '1rem' }}>
+//              Pay Now
+//            </a>
+//          </nav>
+//     }
      
-     </>
-  )
+//      </>
+//   )
+// }
+
+// export default MainHeader
+
+
+"use client";
+import { Suspense } from "react";
+import { useParams, usePathname, useSearchParams, useRouter } from "next/navigation";
+import { RiArrowLeftSLine } from "react-icons/ri";
+
+function HeaderContent() {
+  const pathname = usePathname();
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const phone = searchParams.get("phone");
+  const router = useRouter();
+
+  // Condition: if path is "/pay-parking/[slug]" with a phone query
+  const isParkingPage =
+    pathname === `/pay-parking/${params?.slug}` && Boolean(phone);
+
+  // Condition: if path is "/[slug]" (top-level slug)
+  const isSlugPage = pathname === `/${params?.slug}`;
+
+  return (
+    <>
+      {isSlugPage || isParkingPage ? (
+        <div className="parking-header">
+          <div className="logo-circle">
+            <img
+              src="/tsp_logo.png"
+              alt="logo"
+              height={100}
+              width={100}
+              className="p-3"
+            />
+          </div>
+        </div>
+      ) : (
+        <nav
+          className="navbar ps-3 navbar-dark payment_background_light justify-content-start align-items-center"
+          style={{ background: "rgb(0, 0, 0)" }}
+        >
+          <div
+            className="d-flex header_buttons"
+            onClick={() => router.back()}
+          >
+            <button
+              id="back1"
+              type="button"
+              className="btn btn-primary p-1"
+            >
+              <RiArrowLeftSLine size={30} />
+            </button>
+          </div>
+          <a
+            className="navbar-brand pt-0"
+            href="/pay-parking"
+            style={{ paddingLeft: "1rem" }}
+          >
+            Pay Now
+          </a>
+        </nav>
+      )}
+    </>
+  );
 }
 
-export default MainHeader
+export default function MainHeader() {
+  return (
+    <Suspense fallback={null}>
+      <HeaderContent />
+    </Suspense>
+  );
+}
