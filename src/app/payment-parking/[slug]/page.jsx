@@ -15,36 +15,32 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import FormPay from "react-bootstrap/Form";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
-  
 
 export default function page() {
-const router =useRouter();
-const params=useParams()
-  
+  const router = useRouter();
+  const params = useParams();
 
-  const [parkingData, setParkingData]=useState();
-  const [loading , setLoading]=useState(false);
+  const [parkingData, setParkingData] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-      if (typeof window !== "undefined") {
-         const main_data = localStorage.getItem("parking_data");
-        if (main_data) {
-          const data=JSON.parse(main_data)
-           
-          setParkingData(data);
+    if (typeof window !== "undefined") {
+      const main_data = localStorage.getItem("parking_data");
+      if (main_data) {
+        const data = JSON.parse(main_data);
 
-          // console.log(data?.mainData)
-         } 
-        else {
-           router.push("/");
-        }
+        setParkingData(data);
+
+        // console.log(data?.mainData)
+      } else {
+        router.push("/");
       }
-    }, [router]);
-
+    }
+  }, [router]);
 
   const checkout = async () => {
     //  e.preventDefault()
-    setLoading(true)
+    setLoading(true);
 
     const booking_data = {
       slug: params?.slug,
@@ -70,117 +66,122 @@ const params=useParams()
         }
       );
       showToast("Proceed Payment ", "success");
-       router.push(`/pay`);
-      
-       const ok= JSON.parse(response?.data?.result?.booking_data)
-      booking_data["paddress"]=ok?.paddress
-      booking_data["pname"]=ok?.pname
-       localStorage.setItem("booking_data", JSON.stringify(booking_data));
-     } catch (error) {
+      router.push(`/pay`);
+
+      const ok = JSON.parse(response?.data?.result?.booking_data);
+      booking_data["paddress"] = ok?.paddress;
+      booking_data["pname"] = ok?.pname;
+      localStorage.setItem("booking_data", JSON.stringify(booking_data));
+    } catch (error) {
       console.log(error);
       showToast(error, "error");
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
- 
+
   return (
     <>
-    {loading ? <Loader/> :
-    
-    <> 
-      <Head>
-        <title>Pay for Parking</title>
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-        />
-      </Head>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Head>
+            <title>Pay for Parking</title>
+            <link
+              href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+            />
+          </Head>
 
-      {/* Main container */}
-      <div className="parking-container d-flex align-items-center justify-content-center my-3">
-        <div className="parking-card pb-0 w-100 p-0 ">
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div className="cart-details-container">
-        <div className="payment-summary">
-          <div className="summary-section">
-            <h3 className="summary-title">Payment Details</h3>
+          {/* Main container */}
+          <div className="parking-container d-flex align-items-center justify-content-center my-3">
+            <div className="parking-card pb-0 w-100 p-0 ">
+              <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div className="cart-details-container">
+                  <div className="payment-summary">
+                    <div className="summary-section">
+                      <h3 className="summary-title">Payment Details</h3>
 
-            <div className="summary-row">
-              <div className="summary-label">Parking Fee</div>
-              <div className="summary-value">${parkingData?.mainData?.charge}</div>
-            </div>
+                      <div className="summary-row">
+                        <div className="summary-label">Parking Fee</div>
+                        <div className="summary-value">
+                          ${parkingData?.mainData?.charge}
+                        </div>
+                      </div>
 
-            <div className="summary-row">
-              <div className="summary-label">Convenience fee</div>
-              <div className="summary-value">${parkingData?.mainData?.taxdata[0]?.tax_value}</div>
-            </div>
+                      <div className="summary-row">
+                        <div className="summary-label">Convenience fee</div>
+                        <div className="summary-value">
+                          ${parkingData?.mainData?.taxdata[0]?.tax_value}
+                        </div>
+                      </div>
 
-            <div className="summary-row">
-              <div className="summary-label">Sales Tax</div>
-              <div className="summary-value">${parkingData?.mainData?.taxdata[1]?.tax_value}</div>
-            </div>
+                      <div className="summary-row">
+                        <div className="summary-label">Sales Tax</div>
+                        <div className="summary-value">
+                          ${parkingData?.mainData?.taxdata[1]?.tax_value}
+                        </div>
+                      </div>
 
-            <div className="summary-row summary-total">
-              <div className="summary-label">Total Due</div>
-              <div className="summary-value">${parkingData?.mainData?.final}</div>
+                      <div className="summary-row summary-total">
+                        <div className="summary-label">Total Due</div>
+                        <div className="summary-value">
+                          ${parkingData?.mainData?.final}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row mb-5">
+                  <div className="col-12">
+                    {/* <Link href="/pay" className="w-100"> */}
+                    <button
+                      onClick={() => checkout()}
+                      id="submit-credit-card"
+                      type="button"
+                      className="btn btn-lg btn-block btn-primary w-100"
+                      // style={{
+                      //   backgroundColor: 'rgb(95, 188, 94)',
+                      //   border: '2px solid rgb(95, 188, 94)'
+                      // }}
+                    >
+                      Pay now
+                    </button>
+                    {/* </Link> */}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-       
-
-      <div className="row mb-5">
-        <div className="col-12">
-          {/* <Link href="/pay" className="w-100"> */}
-            <button
-            onClick={()=>checkout()}
-              id="submit-credit-card"
-              type="button"
-              className="btn btn-lg btn-block btn-primary w-100"
-              // style={{
-              //   backgroundColor: 'rgb(95, 188, 94)',
-              //   border: '2px solid rgb(95, 188, 94)'
-              // }}
+          <footer className="parking-footer">
+            <div
+              className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0"
+              style={{ fontSize: "12px" }}
             >
-              Pay now
-            </button>
-          {/* </Link> */}
-        </div>
-      </div>
-    </div>
+              <p className="text-start">
+                {parkingData?.pname} Operated by{" "}
+                <a
+                  href="https://socalpark.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  SoCal
+                </a>
+              </p>
+              <p className="text-end">{parkingData?.paddress}</p>
+            </div>
 
-         
-          
-      
-        </div>
-      </div>
-
-      <footer className="parking-footer">
-        <div className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0" style={{fontSize:"12px"}}>
-          <p className="text-start">
-            {parkingData?.pname} Operated by{" "}
-            <a
-              href="https://socalpark.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-            SoCal
-            </a>
-          </p>
-          <p className="text-end">{parkingData?.paddress}</p>
-        </div>
-
-        <div className="footer-bottom text-center">
-          <div className="powered-box py-3">
-            Powered by <img src="/SOCAL02.png" alt="Oobeo" />
-          </div>
-        </div>
-      </footer>
-    
-    </>
-    }
+            <div className="footer-bottom text-center">
+              <div className="powered-box py-3">
+                Powered by <img src="/SOCAL02.png" alt="Oobeo" />
+              </div>
+            </div>
+          </footer>
+        </>
+      )}
     </>
   );
 }

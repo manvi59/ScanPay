@@ -31,10 +31,8 @@ export default function CardInput() {
   const [bookingData, setBookingData] = useState([]);
   const [processModal, setProcessModal] = useState(false);
   const [paymentCount, setPaymentCount] = useState(0);
-  const [loading , setLoading]=useState(false);
-  const[parkData , setParkData]=useState();
-  
-
+  const [loading, setLoading] = useState(false);
+  const [parkData, setParkData] = useState();
 
   const handleChange = (e) => {
     const formatted = formatCardNumber(e.target.value);
@@ -53,16 +51,14 @@ export default function CardInput() {
     setYear(year);
   };
 
-  useEffect(()=>{
-      let data = localStorage.getItem("booking_data");
-      data = JSON.parse(data);
-      // setBookingData(book_data);
-      setParkData(data)
-
-    },[])
+  useEffect(() => {
+    let data = localStorage.getItem("booking_data");
+    data = JSON.parse(data);
+    // setBookingData(book_data);
+    setParkData(data);
+  }, []);
 
   const makePaymnet = async (values) => {
-     
     let data = localStorage.getItem("booking_data");
 
     if (!data) {
@@ -98,7 +94,7 @@ export default function CardInput() {
           cvvNumber: values?.cvv,
           amount: data?.fcharge,
           // name: values?.cardName,
-          name:"none",
+          name: "none",
           vehicle_type: "1",
           couponcode: "",
         },
@@ -150,8 +146,8 @@ export default function CardInput() {
       } else {
         showToast("Something went wrong. Please try again.", "error");
       }
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -168,28 +164,30 @@ export default function CardInput() {
     //   .required("Expiry date is required")
     //   .matches(/^(0[1-9]|1[0-2]) \/ \d{4}$/, "Format MM / YYYY"),
 
-     expiry: Yup.string()
-    .required("Expiry date is required")
-    // allow "MM/YYYY" or "MM / YYYY"
-    .matches(/^(0[1-9]|1[0-2])\s*\/\s*\d{4}$/, "Format must be MM/YYYY")
-    .test("not-expired", "Card has expired", function (value) {
-      if (!value) return false;
+    expiry: Yup.string()
+      .required("Expiry date is required")
+      // allow "MM/YYYY" or "MM / YYYY"
+      .matches(/^(0[1-9]|1[0-2])\s*\/\s*\d{4}$/, "Format must be MM/YYYY")
+      .test("not-expired", "Card has expired", function (value) {
+        if (!value) return false;
 
-      // normalize: "12 / 2025" -> "12/2025"
-      const [mm, yyyy] = value.replace(/\s+/g, "").split("/");
-      const month = Number(mm);
-      const year = Number(yyyy);
+        // normalize: "12 / 2025" -> "12/2025"
+        const [mm, yyyy] = value.replace(/\s+/g, "").split("/");
+        const month = Number(mm);
+        const year = Number(yyyy);
 
-      if (!month || !year || isNaN(month) || isNaN(year)) {
-        return this.createError({ message: "Invalid date" });
-      }
+        if (!month || !year || isNaN(month) || isNaN(year)) {
+          return this.createError({ message: "Invalid date" });
+        }
 
-      // card valid until end of expiry month
-      const expiryDate = new Date(year, month); // first day of next month
-      const now = new Date();
+        // card valid until end of expiry month
+        const expiryDate = new Date(year, month); // first day of next month
+        const now = new Date();
 
-      return now < expiryDate || this.createError({ message: "Card has expired" });
-    }),
+        return (
+          now < expiryDate || this.createError({ message: "Card has expired" })
+        );
+      }),
 
     cvv: Yup.string()
       .required("CVV is required")
@@ -220,79 +218,79 @@ export default function CardInput() {
     return value.replace(/\D/g, "").slice(0, 6);
   };
 
-
-  
   return (
     <>
-    {loading ?  <Loader/> :
-    <>
-      <Formik
-        initialValues={{
-          // cardName: "",
-          cardNumber: "",
-          expiry: "",
-          cvv: "",
-          postal: "",
-        }}
-        validationSchema={PaymentSchema}
-        validateOnMount={true}
-        onSubmit={(values) => {}}
-      >
-        {({ values, setFieldValue, isValid, dirty }) => (
-          <Form>
-            <div className="mx-4" style={{ marginTop: "100px" }}>
-              <div className=" row d-flex align-items-center border rounded p-3 ">
-                {/* Card Logo */}
-                <div className=" d-flex col-xl-5 col-lg-5 col-md-12 col-12 px-0">
-                  <GrCreditCard size={25} className="me-2" />
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Formik
+            initialValues={{
+              // cardName: "",
+              cardNumber: "",
+              expiry: "",
+              cvv: "",
+              postal: "",
+            }}
+            validationSchema={PaymentSchema}
+            validateOnMount={true}
+            onSubmit={(values) => {}}
+          >
+            {({ values, setFieldValue, isValid, dirty }) => (
+              <Form>
+                <div className="mx-4" style={{ marginTop: "100px" }}>
+                  <div className=" row d-flex align-items-center border rounded p-3 ">
+                    {/* Card Logo */}
+                    <div className=" d-flex col-xl-5 col-lg-5 col-md-12 col-12 px-0">
+                      <GrCreditCard size={25} className="me-2" />
 
-                  <Field
-                    name="cardNumber"
-                    className="border-0 pay-input  "
-                    value={values.cardNumber}
-                    onChange={(e) =>
-                      setFieldValue(
-                        "cardNumber",
-                        formatCardNumber(e.target.value)
-                      )
-                    }
-                    placeholder="Card Number"
-                  />
-                </div>
+                      <Field
+                        name="cardNumber"
+                        className="border-0 pay-input  "
+                        value={values.cardNumber}
+                        onChange={(e) =>
+                          setFieldValue(
+                            "cardNumber",
+                            formatCardNumber(e.target.value)
+                          )
+                        }
+                        placeholder="Card Number"
+                      />
+                    </div>
 
-                <Field
-                  name="expiry"
-                  className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
-                  value={values.expiry}
-                  onChange={(e) =>
-                    setFieldValue("expiry", formatExpiry(e.target.value))
-                  }
-                  placeholder="MM / YYYY"
-                />
+                    <Field
+                      name="expiry"
+                      className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
+                      value={values.expiry}
+                      onChange={(e) =>
+                        setFieldValue("expiry", formatExpiry(e.target.value))
+                      }
+                      placeholder="MM / YYYY"
+                    />
 
-                <Field
-                  name="cvv"
-                  className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
-                  value={values.cvv}
-                  onChange={(e) =>
-                    setFieldValue("cvv", handleCvvChange(e.target.value))
-                  }
-                  placeholder="CVV"
-                />
+                    <Field
+                      name="cvv"
+                      className="border-0 pay-input col-xl-2 col-lg-2 col-md-4 col-4 mt-lg-0  mt-3 px-0"
+                      value={values.cvv}
+                      onChange={(e) =>
+                        setFieldValue("cvv", handleCvvChange(e.target.value))
+                      }
+                      placeholder="CVV"
+                    />
 
-                <Field
-                  name="postal"
-                  className="border-0 pay-input col-xl-3 col-lg-3 col-md-4 col-4 mt-lg-0  mt-3 px-0"
-                  type="text"
-                  placeholder="Postal code"
-                  value={values.postal}
-                  onChange={(e) =>
-                    setFieldValue("postal", handlePostal(e.target.value))
-                  }
-                />
-              </div>
-              <div className="mt-2">
-                {/* <ErrorMessage
+                    <Field
+                      name="postal"
+                      className="border-0 pay-input col-xl-3 col-lg-3 col-md-4 col-4 mt-lg-0  mt-3 px-0"
+                      type="text"
+                      placeholder="Postal code"
+                      value={values.postal}
+                      onChange={(e) =>
+                        setFieldValue("postal", handlePostal(e.target.value))
+                      }
+                    />
+                  </div>
+                  <div className="mt-2">
+                    {/* <ErrorMessage
                   name="cardNumber"
                   component="div"
                   className="error_text"
@@ -314,92 +312,101 @@ export default function CardInput() {
                  
                 /> */}
 
-                 <ErrorMessage
-                    name="cardNumber"
-                    render={(msg) => (
-                      <div className="error-message d-flex align-items-center text-danger">
-                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
-                        <span>{msg}</span>
-                      </div>
-                    )}
-                  />
-                 <ErrorMessage
-                    name="expiry"
-                    render={(msg) => (
-                      <div className="error-message d-flex align-items-center text-danger">
-                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
-                        <span>{msg}</span>
-                      </div>
-                    )}
-                  />
-                 <ErrorMessage
-                    name="cvv"
-                    render={(msg) => (
-                      <div className="error-message d-flex align-items-center text-danger">
-                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
-                        <span>{msg}</span>
-                      </div>
-                    )}
-                  />
-                 <ErrorMessage
-                    name="postal"
-                    render={(msg) => (
-                      <div className="error-message d-flex align-items-center text-danger">
-                        <MdErrorOutline size={18} className="me-1 error-message mt-0" />
-                        <span>{msg}</span>
-                      </div>
-                    )}
-                  />
-              </div>
-              <div className="row my-4">
-                <div className="col-12 px-0">
-                  {/* <Link href={`${isValid && dirty && "/success"}`} className="w-100" onClick={()=>isValid && dirty && makePaymnet(values)}> */}
-                  <button
-                    id="submit-credit-card"
-                    type="submit`"
-                    className="btn btn-lg btn-block btn-primary w-100"
-                    onClick={()=>isValid && dirty && makePaymnet(values)}
-                    // onClick={() => console.log(isValid, "     ", dirty , "\n" , values)}
-                  >
-                    Pay ${parkData?.fcharge}
-                  </button>
-                  {/* </Link> */}
+                    <ErrorMessage
+                      name="cardNumber"
+                      render={(msg) => (
+                        <div className="error-message d-flex align-items-center text-danger">
+                          <MdErrorOutline
+                            size={18}
+                            className="me-1 error-message mt-0"
+                          />
+                          <span>{msg}</span>
+                        </div>
+                      )}
+                    />
+                    <ErrorMessage
+                      name="expiry"
+                      render={(msg) => (
+                        <div className="error-message d-flex align-items-center text-danger">
+                          <MdErrorOutline
+                            size={18}
+                            className="me-1 error-message mt-0"
+                          />
+                          <span>{msg}</span>
+                        </div>
+                      )}
+                    />
+                    <ErrorMessage
+                      name="cvv"
+                      render={(msg) => (
+                        <div className="error-message d-flex align-items-center text-danger">
+                          <MdErrorOutline
+                            size={18}
+                            className="me-1 error-message mt-0"
+                          />
+                          <span>{msg}</span>
+                        </div>
+                      )}
+                    />
+                    <ErrorMessage
+                      name="postal"
+                      render={(msg) => (
+                        <div className="error-message d-flex align-items-center text-danger">
+                          <MdErrorOutline
+                            size={18}
+                            className="me-1 error-message mt-0"
+                          />
+                          <span>{msg}</span>
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div className="row my-4">
+                    <div className="col-12 px-0">
+                      {/* <Link href={`${isValid && dirty && "/success"}`} className="w-100" onClick={()=>isValid && dirty && makePaymnet(values)}> */}
+                      <button
+                        id="submit-credit-card"
+                        type="submit`"
+                        className="btn btn-lg btn-block btn-primary w-100"
+                        onClick={() => isValid && dirty && makePaymnet(values)}
+                        // onClick={() => console.log(isValid, "     ", dirty , "\n" , values)}
+                      >
+                        Pay ${parkData?.fcharge}
+                      </button>
+                      {/* </Link> */}
+                    </div>
+                  </div>
                 </div>
+              </Form>
+            )}
+          </Formik>
+
+          <footer className="parking-footer">
+            <div
+              className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0"
+              style={{ fontSize: "12px" }}
+            >
+              <p className="text-start">
+                {parkData?.pname} Operated by{" "}
+                <a
+                  href="https://socalpark.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  SoCal
+                </a>
+              </p>
+              <p className="text-end">{parkData?.paddress}</p>
+            </div>
+
+            <div className="footer-bottom text-center">
+              <div className="powered-box py-3">
+                Powered by <img src="/SoCal.png" alt="Oobeo" />
               </div>
             </div>
-          </Form>
-        )}
-      </Formik>
-
-     
-
-      <footer className="parking-footer">
-        <div
-          className="footer-top d-flex justify-content-between align-items-center gap-4 mx-4  mx-lg-0"
-          style={{ fontSize: "12px" }}
-        >
-          <p className="text-start">
-            {parkData?.pname} Operated by{" "}
-            <a
-              href="https://socalpark.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              SoCal
-            </a>
-          </p>
-          <p className="text-end">{parkData?.paddress}</p>
-        </div>
-
-        <div className="footer-bottom text-center">
-          <div className="powered-box py-3">
-            Powered by <img src="/SoCal.png" alt="Oobeo" />
-          </div>
-        </div>
-      </footer>
-    </>
-    
-    }
+          </footer>
+        </>
+      )}
     </>
   );
 }

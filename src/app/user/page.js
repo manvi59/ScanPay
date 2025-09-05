@@ -41,15 +41,31 @@ export default function User({mainSlug}) {
   }, []);
 
   // Yup schema with phone validation
+  // const validationSchema = Yup.object().shape({
+  //   phone: Yup.string()
+  //     .required("Phone number is required")
+  //     .test("is-valid-phone", "Invalid phone number", function (value) {
+  //       console.log(value , value?.length)
+  //       if (!value) return false;
+  //       const phoneNumber = parsePhoneNumberFromString("+" + value); // react-phone-input-2 gives number without "+"
+  //       return phoneNumber ? phoneNumber.isValid() : false;
+  //     }),
+  // });
+
   const validationSchema = Yup.object().shape({
-    phone: Yup.string()
-      .required("Phone number is required")
-      .test("is-valid-phone", "Invalid phone number", function (value) {
-        if (!value) return false;
-        const phoneNumber = parsePhoneNumberFromString("+" + value); // react-phone-input-2 gives number without "+"
-        return phoneNumber ? phoneNumber.isValid() : false;
-      }),
-  });
+  phone: Yup.string()
+    .required("Phone number is required")
+    .test("is-valid-phone", "Invalid phone number", function (value) {
+      if (!value) return false;
+
+      // Ensure it starts with '+'
+      const fullNumber = value.startsWith("+") ? value : `+${value}`;
+
+      const phoneNumber = parsePhoneNumberFromString(fullNumber);
+
+      return phoneNumber ? phoneNumber.isValid() : false;
+    }),
+});
 
   const handleSubmit = (values) => {
     if (typeof window !== "undefined") {
