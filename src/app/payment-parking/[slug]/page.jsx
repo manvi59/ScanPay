@@ -2,17 +2,9 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import "../../design/design.css";
-import Image from "next/image";
-import Link from "next/link";
-
-import dynamic from "next/dynamic";
 import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 import showToast from "@/utils/showToast";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
-import FormPay from "react-bootstrap/Form";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 
