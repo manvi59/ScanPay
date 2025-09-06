@@ -132,6 +132,7 @@ export default function CardInput() {
         setProcessModal(true);
         setPaymentCount(paymentCount + 1);
         router.push("/success");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Axios error:", error);
@@ -147,7 +148,7 @@ export default function CardInput() {
         showToast("Something went wrong. Please try again.", "error");
       }
     } finally {
-      setLoading(false);
+      setLoading(true);
     }
   };
 

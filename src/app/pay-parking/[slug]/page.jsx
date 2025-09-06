@@ -146,7 +146,7 @@ export default function page() {
               <h1 className="fw-normal text-center">Pay for Parking</h1>
               {/* <h5 className=" text-center mb-2">RM Parking Solutions LLC</h5> */}
               <h6 className="fw-normal  text-muted text-center my-3">
-                {params?.slug}
+                {data?.pname}
               </h6>
 
               <Formik
@@ -274,8 +274,8 @@ export default function page() {
                             <div className="col-12">
                               <label className="text-muted">
                                 Includes $
-                                {mainData[boxSelect]?.taxdata[0]?.tax_value}{" "}
-                                Processing Fee and all applicable taxes
+                                {mainData[boxSelect]?.taxsum}{" "}
+                                processing fee and all applicable taxes
                               </label>
                             </div>
                           </div>

@@ -65,18 +65,20 @@ export default function page() {
           },
         }
       );
-      showToast("Proceed Payment ", "success");
       router.push(`/pay`);
+      
+      // showToast("Proceed Payment ", "success");
 
       const ok = JSON.parse(response?.data?.result?.booking_data);
       booking_data["paddress"] = ok?.paddress;
       booking_data["pname"] = ok?.pname;
       localStorage.setItem("booking_data", JSON.stringify(booking_data));
+        setLoading(false);
     } catch (error) {
       console.log(error);
       showToast(error, "error");
     } finally {
-      setLoading(false);
+      setLoading(true);
     }
   };
 
@@ -110,7 +112,22 @@ export default function page() {
                         </div>
                       </div>
 
-                      <div className="summary-row">
+                      {parkingData?.mainData?.taxdata.map((items, indx)=>
+                        
+                      items?.tax_value &&(
+                        <div className="summary-row" key={indx}>
+                        <div className="summary-label">{items?.tax_desc}</div>
+                        <div className="summary-value">
+                          ${items?.tax_value}
+                        </div>
+                        
+                      </div>
+                      )
+                      
+ 
+                      )}
+
+                      {/* <div className="summary-row">
                         <div className="summary-label">Convenience fee</div>
                         <div className="summary-value">
                           ${parkingData?.mainData?.taxdata[0]?.tax_value}
@@ -122,7 +139,7 @@ export default function page() {
                         <div className="summary-value">
                           ${parkingData?.mainData?.taxdata[1]?.tax_value}
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="summary-row summary-total">
                         <div className="summary-label">Total Due</div>
