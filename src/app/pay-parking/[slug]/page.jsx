@@ -203,12 +203,12 @@ export default function page() {
                         </div>
                         <div className="mb-3 ">
                           <label className="form-label ">
-                            Enter Your Email*
+                            Enter Your Email
                           </label>
 
                           <FormPay.Control
                             type="text"
-                            placeholder="Enter Your Email*"
+                            placeholder="Enter Your Email"
                             style={{ height: "50px !important" }}
                             onChange={(e) => {
                               setFieldValue("emailValue", e?.target?.value);
