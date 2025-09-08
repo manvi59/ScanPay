@@ -69,7 +69,7 @@ export default function CardInput() {
     data = JSON.parse(data);
 
     // 🔑 Split expiry into MM and YYYY
-    const [month, year] = values?.expiry.split(" / ");
+    // const [month, year] = values?.expiry.split(" / ");
 
     setLoading(true);
     try {
@@ -90,7 +90,7 @@ export default function CardInput() {
           // ✅ Corrected here
           card_no: values?.cardNumber,
           ccExpiryMonth: month,
-          ccExpiryYear: year,
+          ccExpiryYear:"20"+`${year}`,
           cvvNumber: values?.cvv,
           amount: data?.fcharge,
           // name: values?.cardName,
@@ -111,6 +111,7 @@ export default function CardInput() {
         Object.keys(resData.errors).forEach((field) => {
           resData.errors[field].forEach((msg) => {
             showToast(`${field}: ${msg}`, "error");
+             setLoading(false);
           });
         });
         return;
@@ -118,11 +119,13 @@ export default function CardInput() {
 
       if (resData.status === false && resData.error) {
         showToast(resData.error, "error");
+         setLoading(false);
         return;
       }
 
       if (resData.status === false && resData.msg) {
         showToast(resData.msg, "error");
+         setLoading(false);
         return;
       }
 
@@ -140,15 +143,18 @@ export default function CardInput() {
         Object.keys(error.response.data.errors).forEach((field) => {
           error.response.data.errors[field].forEach((msg) => {
             showToast(`${field}: ${msg}`, "error");
+             setLoading(false);
           });
         });
       } else if (error.response?.data?.error) {
         showToast(error.response.data.error, "error");
+         setLoading(false);
       } else {
         showToast("Something went wrong. Please try again.", "error");
+         setLoading(false);
       }
     } finally {
-      setLoading(true);
+      // setLoading();
     }
   };
 
@@ -161,34 +167,61 @@ export default function CardInput() {
       .required("Card number is required")
       .matches(/^\d{4} \d{4} \d{4} \d{4}$/, "Must be 16 digits"),
 
+     
+
     // expiry: Yup.string()
     //   .required("Expiry date is required")
-    //   .matches(/^(0[1-9]|1[0-2]) \/ \d{4}$/, "Format MM / YYYY"),
+    //   // allow "MM/YYYY" or "MM / YYYY"
+    //   .matches(/^(0[1-9]|1[0-2])\s*\/\s*\d{4}$/, "Format must be MM/YYYY")
+    //   .test("not-expired", "Card has expired", function (value) {
+    //     if (!value) return false;
+
+    //     // normalize: "12 / 2025" -> "12/2025"
+    //     const [mm, yyyy] = value.replace(/\s+/g, "").split("/");
+    //     const month = Number(mm);
+    //     const year = Number(yyyy);
+
+    //     if (!month || !year || isNaN(month) || isNaN(year)) {
+    //       return this.createError({ message: "Invalid date" });
+    //     }
+
+    //     // card valid until end of expiry month
+    //     const expiryDate = new Date(year, month); // first day of next month
+    //     const now = new Date();
+
+    //     return (
+    //       now < expiryDate || this.createError({ message: "Card has expired" })
+    //     );
+    //   }),
 
     expiry: Yup.string()
-      .required("Expiry date is required")
-      // allow "MM/YYYY" or "MM / YYYY"
-      .matches(/^(0[1-9]|1[0-2])\s*\/\s*\d{4}$/, "Format must be MM/YYYY")
-      .test("not-expired", "Card has expired", function (value) {
-        if (!value) return false;
+  .required("Expiry date is required")
+  // allow "MM/YY" or "MM / YY"
+  .matches(/^(0[1-9]|1[0-2])\s*\/\s*\d{2}$/, "Format must be MM/YY")
+  .test("not-expired", "Card has expired", function (value) {
+    if (!value) return false;
 
-        // normalize: "12 / 2025" -> "12/2025"
-        const [mm, yyyy] = value.replace(/\s+/g, "").split("/");
-        const month = Number(mm);
-        const year = Number(yyyy);
+    // normalize: "12 / 25" -> "12/25"
+    const [mm, yy] = value.replace(/\s+/g, "").split("/");
+    const month = Number(mm);
+    const year = Number(yy);
 
-        if (!month || !year || isNaN(month) || isNaN(year)) {
-          return this.createError({ message: "Invalid date" });
-        }
+    if (!month || !year || isNaN(month) || isNaN(year)) {
+      return this.createError({ message: "Invalid date" });
+    }
 
-        // card valid until end of expiry month
-        const expiryDate = new Date(year, month); // first day of next month
-        const now = new Date();
+    // convert YY → YYYY (assuming 2000–2099)
+    const fullYear = 2000 + year;
 
-        return (
-          now < expiryDate || this.createError({ message: "Card has expired" })
-        );
-      }),
+    // card valid until the end of expiry month
+    const expiryDate = new Date(fullYear, month); // first day of next month
+    const now = new Date();
+
+    return (
+      now < expiryDate || this.createError({ message: "Card has expired" })
+    );
+  }),
+
 
     cvv: Yup.string()
       .required("CVV is required")
@@ -205,11 +238,29 @@ export default function CardInput() {
     return parts ? parts.join(" ") : "";
   };
 
+  // const formatExpiry = (value) => {
+  //   const digits = value.replace(/\D/g, "").slice(0, 6); // MMYYYY
+  //   if (digits.length <= 2) return digits;
+  //   return `${digits.slice(0, 2)} / ${digits.slice(2)}`;
+  // };
+
   const formatExpiry = (value) => {
-    const digits = value.replace(/\D/g, "").slice(0, 6); // MMYYYY
-    if (digits.length <= 2) return digits;
-    return `${digits.slice(0, 2)} / ${digits.slice(2)}`;
-  };
+  // Remove all non-digits
+  let input = value.replace(/\D/g, "");
+
+  if (input.length >= 3) {
+    let month = input.substring(0, 2);
+    let year = input.substring(2, 4); // take only 2 digits for year
+    setMonth(month)
+    setYear(year)
+    return `${month}/${year}`;
+  }
+
+  return input;
+};
+
+
+// console.log( month , "          " , year)
 
   const handleCvvChange = (value) => {
     return value.replace(/\D/g, "").slice(0, 4);
@@ -266,8 +317,10 @@ export default function CardInput() {
                       onChange={(e) =>
                         setFieldValue("expiry", formatExpiry(e.target.value))
                       }
-                      placeholder="MM / YYYY"
+                      placeholder="MM / YY"
                     />
+
+                   
 
                     <Field
                       name="cvv"

@@ -37,7 +37,7 @@ export default function page() {
       .required("Licence plate is required"),
     emailValue: Yup.string()
       .email("Invalid email address")
-      .required("Email is required"),
+      // .required("Email is required"),
   });
 
   const getData = async () => {
