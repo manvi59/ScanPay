@@ -134,8 +134,9 @@ export default function CardInput() {
         localStorage.setItem("booking_success", JSON.stringify(response.data));
         setProcessModal(true);
         setPaymentCount(paymentCount + 1);
-        router.push("/success");
-        setLoading(false);
+        // router.push("/success");
+        router.replace("/success");
+        // setLoading(false);
       }
     } catch (error) {
       console.error("Axios error:", error);
