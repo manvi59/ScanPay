@@ -255,6 +255,7 @@ export default function CardInput() {
     setMonth(month)
     setYear(year)
     return `${month}/${year}`;
+    
   }
 
   return input;

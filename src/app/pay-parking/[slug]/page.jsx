@@ -105,6 +105,9 @@ export default function page() {
     }
 
     if (minutes === 0) {
+      if(hours===24){
+        return `Daily Max`
+      }
       return `${hours} hour`;
     }
 
